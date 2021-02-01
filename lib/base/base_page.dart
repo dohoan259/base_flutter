@@ -1,4 +1,6 @@
 import 'package:base_project/base/base_state.dart';
+import 'package:base_project/base/error_listener.dart';
+import 'package:base_project/base/result.dart';
 import 'package:base_project/presenter/widgets/loading.dart';
 import 'package:base_project/presenter/widgets/uninitialize_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ class BasePage<T extends BaseState> extends StatefulWidget {
   @override
   _BasePageState<T> createState() => _BasePageState<T>();
 
-  final Function() onModelReady;
+  final Future<Result> Function() onModelReady;
 
   final Widget loadedView;
 
@@ -25,20 +27,23 @@ class _BasePageState<T extends BaseState> extends State<BasePage> {
     //   //todo: Error handler
     // }
 
-    widget.onModelReady();
+    if (widget.onModelReady != null) {
+      widget.onModelReady().then((result) {
+        //todo: check if result is instance of error
+      });
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return Consumer<T>(
-      builder: (context, state, child) {
-        if (state is UninitializedState) {
+    return Selector<T, ViewState>(
+      selector: (context, model) => model.viewState,
+      builder: (_, viewState, __) {
+        if (viewState == ViewState.Uninitialized) {
           return UninitializeWidget();
-        } else if (state is ErrorState) {
-         return widget.errorView;
-        } else {
+        } else if (viewState == ViewState.Loaded) {
           return Stack(
             children: [
               widget.loadedView,
@@ -55,36 +60,10 @@ class _BasePageState<T extends BaseState> extends State<BasePage> {
                   selector: (_, t) => t.processing)
             ],
           );
+        } else {
+          return widget.errorView;
         }
       },
     );
-
-    // return Selector<T, ViewState>(
-    //   selector: (context, model) => model.viewState,
-    //   builder: (_, viewState, __) {
-    //     if (viewState == ViewState.Uninitialized) {
-    //       return UninitializeWidget();
-    //     } else if (viewState == ViewState.Loaded) {
-    //       return Stack(
-    //         children: [
-    //           widget.loadedView,
-    //           Selector<T, bool>(
-    //               builder: (_, processing, __) {
-    //                 if (processing) {
-    //                   return Loading(
-    //                     opacity: 0.3,
-    //                   );
-    //                 } else {
-    //                   return SizedBox();
-    //                 }
-    //               },
-    //               selector: (_, t) => t.processing)
-    //         ],
-    //       );
-    //     } else {
-    //       return widget.errorView;
-    //     }
-    //   },
-    // );
   }
 }

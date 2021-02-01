@@ -8,8 +8,9 @@ class HomeState extends BaseState{
   int count = 0;
 
   @override
-  BaseState copyWith({processing, count}) {
+  BaseState copyWith({viewState, processing, count}) {
     var newState = HomeState();
+    newState.viewState = viewState ?? this.viewState;
     newState.processing = processing ?? this.processing;
     newState.count = count ?? this.count;
 

@@ -1,5 +1,5 @@
+import 'package:base_project/config/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:base_project/config/router.dart' as route;
 
 void main() {
   runApp(MyApp());
@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
-      onGenerateRoute: route.Router.generateRoute,
+      initialRoute: AppRouter.HOME_PATH,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }

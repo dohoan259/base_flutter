@@ -1,3 +1,4 @@
+import 'package:base_project/config/app_router.dart';
 import 'package:base_project/data/home_state.dart';
 import 'file:///D:/software_project/FlutterProject/base_project/lib/base/base_page.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatelessWidget {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Text('Home loaded with $count!'),
                   FlatButton(
@@ -34,6 +36,10 @@ class HomePage extends StatelessWidget {
                     },
                     child: Text('increase'),
                   ),
+                  Spacer(),
+                  FlatButton(onPressed: (){
+                    Navigator.of(context).pushReplacementNamed(AppRouter.LOGIN_PATH);
+                  }, child: Text('Logout'))
                 ],
               ),
             );

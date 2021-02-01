@@ -1,3 +1,4 @@
+import 'package:base_project/base/base_state.dart';
 import 'package:base_project/data/home_state.dart';
 import 'package:base_project/data/login_state.dart';
 import 'package:base_project/presenter/screens/home/home_controller.dart';
@@ -7,10 +8,15 @@ import 'package:base_project/presenter/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 
-class Router {
+class AppRouter {
+
+  static const HOME_PATH = '/';
+  static const LOGIN_PATH = '/login';
+  static const POST_PATH = '/post';
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case HOME_PATH:
         return MaterialPageRoute(
           builder: (_) => StateNotifierProvider<HomeController, HomeState>(
             create: (_) => HomeController(),
@@ -19,7 +25,7 @@ class Router {
             },
           ),
         );
-      case 'login':
+      case LOGIN_PATH:
         return MaterialPageRoute(
           builder: (_) => StateNotifierProvider<LoginController, LoginState>(
             create: (_) => LoginController(),
@@ -28,7 +34,7 @@ class Router {
             },
           ),
         );
-      case 'post':
+      case POST_PATH:
         return MaterialPageRoute(
           builder: (_) => StateNotifierProvider<HomeController, HomeState>(
             create: (_) => HomeController(),
