@@ -6,7 +6,7 @@ import 'package:base_project/data/home_state.dart';
 class HomeController extends BaseController<HomeState> {
   HomeController() : super(HomeState());
 
-  Future<Result> loadData() async {
+  Future<Result> initState() async {
     state = state.copyWith(viewState: ViewState.Uninitialized);
     await Future.delayed(Duration(seconds: 2));
     HomeState clone = state.copyWith();
@@ -14,16 +14,16 @@ class HomeController extends BaseController<HomeState> {
     clone.viewState = ViewState.Loaded;
     state = clone;
 
-    return Result();
+    return Success(data: state.count);
   }
 
   Future<Result> increase() async {
     HomeState clone = state.copyWith(processing: true);
     state = clone;
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
     clone = state.copyWith();
     clone.count++;
     state = clone.copyWith(processing: false);
-    return Result();
+    return Success(data: state.count);
   }
 }
