@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRouter.LOGIN_PATH,
+      initialRoute: AppRouter.HOME_PATH,
       onGenerateRoute: AppRouter.generateRoute,
     );
   }

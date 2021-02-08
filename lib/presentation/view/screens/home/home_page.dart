@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
               color: Colors.grey,
                 onPressed: () {
                   Navigator.of(context)
-                      .pushReplacementNamed(AppRouter.LOGIN_PATH);
+                      .pushNamedAndRemoveUntil(AppRouter.LOGIN_PATH, (_) => true);
                 },
                 child: Text('Logout'))
           ],

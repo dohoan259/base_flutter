@@ -38,10 +38,18 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ValidatedTextFormField(hintText: 'username',),
-              SizedBox(height: 8,),
-              ValidatedTextFormField(hintText: 'password',),
-              SizedBox(height: 120,),
+              ValidatedTextFormField(
+                hintText: 'username',
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              ValidatedTextFormField(
+                hintText: 'password',
+              ),
+              SizedBox(
+                height: 120,
+              ),
               FlatButton(
                 color: AppColors.cornflowerBlue,
                 onPressed: () {
