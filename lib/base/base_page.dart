@@ -1,15 +1,16 @@
 import 'package:base_project/base/base_controller.dart';
 import 'package:base_project/base/base_state.dart';
-import 'package:base_project/base/error_page.dart';
-import 'package:base_project/base/result.dart';
-import 'package:base_project/presenter/widgets/loading.dart';
-import 'package:base_project/presenter/widgets/uninitialize_widget.dart';
+import 'package:base_project/data/result.dart';
+import 'package:base_project/presentation/view/screens/error/unknown_error_page.dart';
+import 'package:base_project/presentation/view/widgets/loading.dart';
+import 'package:base_project/presentation/view/widgets/uninitialized_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BasePage<T extends BaseState, U extends BaseController> extends StatefulWidget {
+class BasePage<C extends BaseController, T extends BaseState>
+    extends StatefulWidget {
   @override
-  _BasePageState<T, U> createState() => _BasePageState<T, U>();
+  _BasePageState<C, T> createState() => _BasePageState<C, T>();
 
   final Function(Result) onPageInitialized;
 
@@ -24,11 +25,12 @@ class BasePage<T extends BaseState, U extends BaseController> extends StatefulWi
   });
 }
 
-class _BasePageState<T extends BaseState, U extends BaseController> extends State<BasePage> {
+class _BasePageState<C extends BaseController, T extends BaseState>
+    extends State<BasePage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<U>().initState().then((result) {
+      context.read<C>().loadData().then((result) {
         widget.onPageInitialized?.call(result);
       });
     });
@@ -37,32 +39,41 @@ class _BasePageState<T extends BaseState, U extends BaseController> extends Stat
 
   @override
   Widget build(BuildContext context) {
-    return Selector<T, ViewState>(
-      selector: (context, model) => model.viewState,
-      builder: (_, viewState, __) {
-        if (viewState == ViewState.Uninitialized) {
-          return UninitializeWidget();
-        } else if (viewState == ViewState.Error) {
-          return widget.errorView ?? ErrorPage();
-        } else {
-          return Stack(
-            children: [
-              widget.loadedView,
-              Selector<T, bool>(
-                  builder: (_, processing, __) {
-                    if (processing) {
-                      return Loading(
-                        opacity: 0.3,
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  },
-                  selector: (_, state) => state.processing)
-            ],
-          );
-        }
-      },
-    );
+    return GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Selector<T, ViewState>(
+          selector: (context, model) => model.viewState,
+          builder: (_, viewState, __) {
+            if (viewState == ViewState.Uninitialized) {
+              return UninitializedWidget();
+            } else if (viewState == ViewState.Error) {
+              return widget.errorView ?? UnknownErrorPage<C>();
+            } else {
+              return Stack(
+                children: [
+                  Scaffold(
+                    body: widget.loadedView,
+                  ),
+                  Selector<T, bool>(
+                      builder: (_, processing, __) {
+                        if (processing) {
+                          return Loading(
+                            opacity: 0.3,
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      },
+                      selector: (_, state) => state.processing)
+                ],
+              );
+            }
+          },
+        ));
   }
 }

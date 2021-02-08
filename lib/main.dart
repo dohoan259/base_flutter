@@ -1,4 +1,4 @@
-import 'package:base_project/config/app_router.dart';
+import 'package:base_project/presentation/route/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      debugShowCheckedModeBanner: false,
       initialRoute: AppRouter.LOGIN_PATH,
       onGenerateRoute: AppRouter.generateRoute,
     );

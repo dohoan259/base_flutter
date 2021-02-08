@@ -1,5 +1,5 @@
-import 'package:base_project/presenter/screens/home/home_page.dart';
-import 'package:base_project/presenter/screens/login/login_page.dart';
+import 'package:base_project/presentation/view/screens/home/home_page.dart';
+import 'package:base_project/presentation/view/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {

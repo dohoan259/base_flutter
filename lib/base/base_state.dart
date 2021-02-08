@@ -1,6 +1,6 @@
 // ignore: must_be_immutable
 abstract class BaseState {
-  ViewState viewState;
+  ViewState viewState = ViewState.Uninitialized;
   bool processing = false;
   BaseState copyWith();
 }

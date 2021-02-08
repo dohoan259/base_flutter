@@ -1,4 +1,4 @@
-import 'package:base_project/base/error_entity.dart';
+import 'package:base_project/data/error_entity.dart';
 
 class ErrorListener {
   ErrorListener._privateConstructor();
