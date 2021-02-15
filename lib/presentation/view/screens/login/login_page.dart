@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
-import 'login_controller.dart';
+import '../../../controller/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   @override

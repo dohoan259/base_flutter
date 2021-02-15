@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
-import 'home_controller.dart';
+import '../../../controller/home_controller.dart';
 
 class HomePage extends StatelessWidget {
   @override
